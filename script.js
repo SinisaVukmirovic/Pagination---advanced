@@ -116,10 +116,10 @@ function buildTable() {
 
     myList.forEach(item => {
         let row = `<tr>
-            <td>${item.rank}</td>
-            <td>${item.name}</td>
-            <td>${item.surname}</td>
-        </tr>`;
+                       <td>${item.rank}</td>
+                       <td>${item.name}</td>
+                       <td>${item.surname}</td>
+                   </tr>`;
 
         tableBody.innerHTML += row;
     });
