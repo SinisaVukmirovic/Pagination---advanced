@@ -78,6 +78,41 @@ let tableData = [
         "name": "Mario",
         "surname": "Super",
         "rank": "16",
+    },
+    {
+        "name": "Larry",
+        "surname": "Bird",
+        "rank": "17",
+    },
+    {
+        "name": "Mario",
+        "surname": "Super",
+        "rank": "18",
+    },
+    {
+        "name": "Joe",
+        "surname": "Smith",
+        "rank": "19",
+    },
+    {
+        "name": "Jane",
+        "surname": "Doe",
+        "rank": "20",
+    },
+    {
+        "name": "Marry",
+        "surname": "Mit",
+        "rank": "21",
+    },
+    {
+        "name": "Joe",
+        "surname": "Smith",
+        "rank": "22",
+    },
+    {
+        "name": "Jane",
+        "surname": "Doe",
+        "rank": "23",
     }
 ];
 
@@ -105,6 +140,27 @@ function pagination(querySet, page, rows) {
     }
 }
 
+function pageNumbs(pages) {
+    let pageNumbsElem = document.querySelector('#page-numbs');
+    pageNumbsElem.innerHTML = '';
+
+    for (let page = 1; page <= pages; page++) {
+        pageNumbsElem.innerHTML += `
+            <button class="page" value="${page}">${page}</button>
+        `;
+    }
+
+    let btns = document.querySelectorAll('.page');
+
+    btns.forEach(btn => btn.addEventListener('click', function() {
+        document.querySelector('#table-body').innerHTML = '';
+
+        state.currPage = this.value;
+
+        buildTable();
+    }));
+}
+
 function buildTable() {    
     let tableBody = document.querySelector('#table-body');
 
@@ -123,4 +179,6 @@ function buildTable() {
 
         tableBody.innerHTML += row;
     });
+
+    pageNumbs(data.pages);
 }
