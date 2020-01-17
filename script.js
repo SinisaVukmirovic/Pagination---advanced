@@ -1,200 +1,46 @@
-let tableData = [
-    {
-        "name": "Joe",
-        "surname": "Smith",
-        "rank": "1",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "2",
-    },
-    {
-        "name": "Marry",
-        "surname": "Mit",
-        "rank": "3",
-    },
-    {
-        "name": "Tom",
-        "surname": "Sowyer",
-        "rank": "4",
-    },
-    {
-        "name": "Larry",
-        "surname": "Bird",
-        "rank": "5",
-    },
-    {
-        "name": "Mario",
-        "surname": "Super",
-        "rank": "6",
-    },
-    {
-        "name": "Joe",
-        "surname": "Smith",
-        "rank": "7",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "8",
-    },
-    {
-        "name": "Marry",
-        "surname": "Mit",
-        "rank": "9",
-    },
-    {
-        "name": "Joe",
-        "surname": "Smith",
-        "rank": "10",
-    },
-    {
-        "name": "Mario",
-        "surname": "Super",
-        "rank": "11",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "12",
-    },
-    {
-        "name": "Marry",
-        "surname": "Mit",
-        "rank": "13",
-    },
-    {
-        "name": "Tom",
-        "surname": "Sowyer",
-        "rank": "14",
-    },
-    {
-        "name": "Larry",
-        "surname": "Bird",
-        "rank": "15",
-    },
-    {
-        "name": "Mario",
-        "surname": "Super",
-        "rank": "16",
-    },
-    {
-        "name": "Larry",
-        "surname": "Bird",
-        "rank": "17",
-    },
-    {
-        "name": "Mario",
-        "surname": "Super",
-        "rank": "18",
-    },
-    {
-        "name": "Joe",
-        "surname": "Smith",
-        "rank": "19",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "20",
-    },
-    {
-        "name": "Marry",
-        "surname": "Mit",
-        "rank": "21",
-    },
-    {
-        "name": "Joe",
-        "surname": "Smith",
-        "rank": "22",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "23",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "24",
-    },
-    {
-        "name": "Marry",
-        "surname": "Mit",
-        "rank": "25",
-    },
-    {
-        "name": "Tom",
-        "surname": "Sowyer",
-        "rank": "26",
-    },
-    {
-        "name": "Larry",
-        "surname": "Bird",
-        "rank": "27",
-    },
-    {
-        "name": "Mario",
-        "surname": "Super",
-        "rank": "28",
-    },
-    {
-        "name": "Joe",
-        "surname": "Smith",
-        "rank": "29",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "30",
-    },
-    {
-        "name": "Marry",
-        "surname": "Mit",
-        "rank": "31",
-    },
-    {
-        "name": "Joe",
-        "surname": "Smith",
-        "rank": "32",
-    },
-    {
-        "name": "Mario",
-        "surname": "Super",
-        "rank": "33",
-    },
-    {
-        "name": "Jane",
-        "surname": "Doe",
-        "rank": "34",
-    },
-    {
-        "name": "Marry",
-        "surname": "Mit",
-        "rank": "35",
-    },
-    {
-        "name": "Tom",
-        "surname": "Sowyer",
-        "rank": "36",
-    },
-    {
-        "name": "Larry",
-        "surname": "Bird",
-        "rank": "37",
-    },
-];
+let heroesData = [];
 
 let state = {
-    'querySet': tableData,
+    'querySet': heroesData,
     'currPage': 1,
-    'rows': 3,
-    'window': 4
+    'rows': 10,
+    'window': 5
     // window is similar to rows, it limits how many page buttons will be displayed
 }
 
-buildTable();
+function fetchHeroNames() {
+    dotaHeroes().then(results => {
+        results.forEach(res => {
+            heroesData.push({
+                "id": res.id,
+                "name": res.localized_name,
+                "primary": res.primary_attr,
+                "attack": res.attack_type,
+                "role": res.roles
+            });
+        });
+        // console.log(results);
+        console.log(heroesData);
+
+        buildTable();
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+async function dotaHeroes() {
+    let apiUrl = 'https://api.opendota.com/api/heroes';
+
+    let response = await fetch(apiUrl);
+    let data = await response.json();
+
+    return data;
+}
+
+fetchHeroNames();
+
+
 
 // function that grabs our data set, trims it down and return that limited query set along with how many pages we have
 function pagination(querySet, page, rows) {
@@ -276,13 +122,15 @@ function buildTable() {
     console.log('Data:', data);
 
     // myList = state.querySet;
-    myList = data.querySet;
+    heroList = data.querySet;
 
-    myList.forEach(item => {
+    heroList.forEach(hero => {
         let row = `<tr>
-                       <td>${item.rank}</td>
-                       <td>${item.name}</td>
-                       <td>${item.surname}</td>
+                       <td>${hero.id}</td>
+                       <td>${hero.name}</td>
+                       <td>${hero.primary}</td>
+                       <td>${hero.attack}</td>
+                       <td>${hero.role}</td>
                    </tr>`;
 
         tableBody.innerHTML += row;
