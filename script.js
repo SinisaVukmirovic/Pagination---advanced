@@ -5,14 +5,17 @@ let state = {
     'currPage': 1,
     'rows': 10,
     'window': 5
-    // window is similar to rows, it limits how many page buttons will be displayed
+    // pagination window with numbers works similar to rows, 
+    // it limits how many page buttons will be displayed
 }
 
 function fetchHeroNames() {
     dotaHeroes().then(results => {
+        let id = 1;
+
         results.forEach(res => {
             heroesData.push({
-                "id": res.id,
+                "id": id++,
                 "name": res.localized_name,
                 "primary": res.primary_attr,
                 "attack": res.attack_type,
@@ -91,7 +94,7 @@ function pageNumbs(pages) {
         `;
     }
 
-    if (state.currPage != 1) {
+    if (state.currPage != 0) {
         pageNumbsElem.innerHTML = `
             <button class="page" value="1">&#171 First</button> 
         `
