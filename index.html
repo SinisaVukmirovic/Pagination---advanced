@@ -4,27 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pagination</title>
+    <title>Pagination (advanced)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <header>
+        <h1>Pagination (advanced)</h1>
+    </header>
+
+    <h2 class="subtitle">DOTA Heroes stats table list with pagination</h2>
     
     <table>
         <thead>
             <tr>
-                <td><strong>ID</strong></td>
-                <td><strong>Hero</strong></td>
-                <td><strong>Primary</strong></td>
-                <td><strong>Attack</strong></td>
-                <td><strong>Roles</strong></td>
+                <th><strong>ID</strong></th>
+                <th><strong>Hero</strong></th>
+                <th><strong>Primary</strong></th>
+                <th><strong>Attack</strong></th>
+                <th><strong>Roles</strong></th>
             </tr>
         </thead>
-        <tbody id="table-body">
+        
+        <tbody id="table-body"></tbody>  
+    </table>   
 
-        </tbody>
-    </table>
-
-    <div id="page-numbs"></div>
+    <div id="page-numbs"></div>  
 
     <script src="script.js"></script>
 </body>
