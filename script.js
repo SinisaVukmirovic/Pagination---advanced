@@ -5,7 +5,7 @@ let state = {
     'currPage': 1,
     'rows': 10,
     'window': 5
-    // pagination window with numbers works similar to rows, 
+    // window for pagination with numbers works similar to rows, 
     // it limits how many page buttons will be displayed
 }
 
@@ -17,13 +17,11 @@ function fetchHeroNames() {
             heroesData.push({
                 "id": id++,
                 "name": res.localized_name,
-                "primary": res.primary_attr,
+                "primary": (res.primary_attr).toUpperCase(),
                 "attack": res.attack_type,
                 "role": res.roles
             });
         });
-        // console.log(results);
-        console.log(heroesData);
 
         buildTable();
     })
@@ -42,8 +40,6 @@ async function dotaHeroes() {
 }
 
 fetchHeroNames();
-
-
 
 // function that grabs our data set, trims it down and return that limited query set along with how many pages we have
 function pagination(querySet, page, rows) {
@@ -66,7 +62,6 @@ function pageNumbs(pages) {
     pageNumbsElem.innerHTML = '';
 
     let maxLeft = (state.currPage - Math.floor(state.window / 2));
-    // let maxRight = (state.currPage + Math.floor(state.window / 2));
     let maxRight = (state.currPage + Math.floor(state.window / 2));
 
     if (maxLeft < 1) {
@@ -90,24 +85,24 @@ function pageNumbs(pages) {
 
     for (let page = maxLeft; page <= maxRight; page++) {
         pageNumbsElem.innerHTML += `
-            <button class="page" value="${page}">${page}</button>
+            <button value="${page}">${page}</button>
         `;
     }
 
     if (state.currPage != 0) {
         pageNumbsElem.innerHTML = `
-            <button class="page" value="1">&#171 First</button> 
+            <button value="1">&#171 First</button> 
         `
         + pageNumbsElem.innerHTML;
     }
 
     if (state.currPage != pages) {
         pageNumbsElem.innerHTML += `
-            <button class="page" value="${pages}">Last &#187</button>
+            <button value="${pages}">Last &#187</button>
         `;
     }
 
-    let btns = document.querySelectorAll('.page');
+    let btns = document.querySelectorAll('button');
 
     btns.forEach(btn => btn.addEventListener('click', function() {
         document.querySelector('#table-body').innerHTML = '';
@@ -124,7 +119,6 @@ function buildTable() {
     let data = pagination(state.querySet, state.currPage, state.rows);
     console.log('Data:', data);
 
-    // myList = state.querySet;
     heroList = data.querySet;
 
     heroList.forEach(hero => {
@@ -132,11 +126,24 @@ function buildTable() {
                        <td>${hero.id}</td>
                        <td>${hero.name}</td>
                        <td>${hero.primary}</td>
-                       <td>${hero.attack}</td>
                        <td>${hero.role}</td>
                    </tr>`;
 
         tableBody.innerHTML += row;
+    });
+
+    let primaries = document.querySelectorAll('tbody tr td:nth-child(3)');
+    
+    primaries.forEach(primary => {
+        if (primary.textContent == 'AGI') {
+            primary.style.color = 'lime';
+        }
+        else if (primary.textContent == 'STR') {
+            primary.style.color = 'coral';
+        }
+        else {
+            primary.style.color = 'cornflowerblue';
+        }
     });
 
     pageNumbs(data.pages);
