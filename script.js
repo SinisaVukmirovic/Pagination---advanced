@@ -89,7 +89,7 @@ function pageNumbs(pages) {
         `;
     }
 
-    if (state.currPage != 0) {
+    if (state.currPage != 1) {
         pageNumbsElem.innerHTML = `
             <button value="1">&#171 First</button> 
         `
